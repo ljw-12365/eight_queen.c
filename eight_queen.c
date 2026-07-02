@@ -2,8 +2,7 @@
 #include <string.h>
 
 #define MAX_N 12
-int total_count = 0;
-
+// 冲突检测函数
 int is_valid(int row, int col, int queen[])
 {
     int i;
@@ -17,22 +16,27 @@ int is_valid(int row, int col, int queen[])
     return 1;
 }
 
-void print_board(int n, int queen[], int num)
+// 回溯求解函数
+void backtrack(int row, int n, int queen[])
 {
-    int i, j;
-    printf("\n第%d个解：\n", num);
-    for (i = 0; i < n; i++)
+    int col;
+    if (row == n)
     {
-        for (j = 0; j < n; j++)
+        total_count++;
+        print_board(n, queen, total_count);
+        return;
+    }
+    for (col = 0; col < n; col++)
+    {
+        if (is_valid(row, col, queen))
         {
-            if (queen[i] == j)
-                printf("Q ");
-            else
-                printf(". ");
+            queen[row] = col;
+            backtrack(row + 1, n, queen);
+            queen[row] = 0;
         }
-        printf("\n");
     }
 }
+
 
 void backtrack(int row, int n, int queen[])
 {
